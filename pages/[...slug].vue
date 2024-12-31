@@ -9,7 +9,7 @@
               <h1>404</h1>
               <p>{{ $t('error.notFound') }}</p>
               <div class="actions">
-                <NuxtLink :to="$localePath('/')" class="btn btn-primary">
+                <NuxtLink :to="localePath('/')" class="btn btn-primary">
                   {{ $t('error.backHome') }}
                 </NuxtLink>
               </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-const { $localePath } = useNuxtApp()
+const localePath = useLocalePath()
 </script>
 
 <style scoped>
@@ -146,4 +146,4 @@ p {
     margin: var(--spacing-md) 0;
   }
 }
-</style>
+</style> 

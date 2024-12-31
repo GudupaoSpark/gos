@@ -1,0 +1,49 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "name": "Vue.js",
+      "description": "渐进式 JavaScript 框架，用于构建用户界面。易学易用，性能出色，适用场景丰富的 Web 前端框架。",
+      "github": "https://github.com/vuejs/core",
+      "tags": ["JavaScript", "TypeScript", "Framework", "Frontend"],
+      "stars": 0,
+      "forks": 0
+    },
+    {
+      "id": "2",
+      "name": "Vite",
+      "description": "下一代的前端工具链，为开发提供极速响应。基于原生 ES 模块的开发服务器，构建工具。",
+      "github": "https://github.com/vitejs/vite",
+      "tags": ["JavaScript", "Build Tool", "Dev Tool", "Frontend"],
+      "stars": 0,
+      "forks": 0
+    },
+    {
+      "id": "3",
+      "name": "Element Plus",
+      "description": "基于 Vue 3 的强大且流行的组件库，为开发者提供了一套丰富的高质量组件。",
+      "github": "https://github.com/element-plus/element-plus",
+      "tags": ["Vue", "UI Framework", "Components", "TypeScript"],
+      "stars": 0,
+      "forks": 0
+    },
+    {
+      "id": "4",
+      "name": "Ant Design Vue",
+      "description": "Ant Design 的 Vue 实现，提供了一套企业级 UI 组件，帮助开发者快速搭建企业级应用。",
+      "github": "https://github.com/vueComponent/ant-design-vue",
+      "tags": ["Vue", "UI Framework", "Components", "Enterprise"],
+      "stars": 0,
+      "forks": 0
+    },
+    {
+      "id": "5",
+      "name": "Nuxt",
+      "description": "基于 Vue 的直观的 Web 框架，让 Web 开发变得简单而强大，支持全栈开发。",
+      "github": "https://github.com/nuxt/nuxt",
+      "tags": ["Vue", "Framework", "SSR", "Full Stack"],
+      "stars": 0,
+      "forks": 0
+    }
+  ]
+} 

@@ -7,11 +7,11 @@ export default defineNuxtRouteMiddleware((to) => {
     (route.path.includes(':') && to.matched.length > 0)
   )
 
-  // 如果路由不存在且不是错误页面，显示404
-  if (!routeExists && to.name !== 'error') {
-    throw createError({
+  // 如果路由完全不存在（不包括 [...slug] 捕获的路由）才显示 404
+  if (!routeExists && to.name !== 'error' && !to.path.startsWith('/')) {
+    abortNavigation({
       statusCode: 404,
-      statusMessage: 'Page Not Found'
+      statusMessage: '页面未找到'
     })
   }
 }) 

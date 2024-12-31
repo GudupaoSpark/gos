@@ -1,7 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxt/content', '@nuxtjs/i18n'],
+  components: {
+    dirs: [
+      {
+        path: '~/components',
+        pathPrefix: false,
+      },
+    ],
+  },
+  modules: [
+    '@nuxtjs/i18n',
+    '@vueuse/nuxt',
+    '@nuxt/content'
+  ],
+  content: {
+    documentDriven: true
+  },
   i18n: {
     baseUrl: 'http://localhost:3000',
     defaultLocale: 'zh',
@@ -18,5 +33,13 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true }
   },
-  css: ['@/assets/styles/main.css'],
+  css: [
+    '~/assets/styles/main.css',
+  ],
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' }
+  },
+  experimental: {
+    payloadExtraction: false
+  }
 })
