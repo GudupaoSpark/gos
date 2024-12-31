@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     '@nuxt/content'
   ],
   content: {
-    documentDriven: true
+    documentDriven: false
   },
   i18n: {
     baseUrl: 'http://localhost:3000',
