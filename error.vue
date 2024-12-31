@@ -1,28 +1,25 @@
 <template>
-  <main>
-    <ContentDoc>
-      <template #not-found>
-        <div class="home">
-          <div class="hero">
-            <div class="hero-content">
-              <img src="/logo.png" alt="Logo" class="hero-logo">
-              <h1>404</h1>
-              <p>{{ $t('error.notFound') }}</p>
-              <div class="actions">
-                <NuxtLink :to="$localePath('/')" class="btn btn-primary">
-                  {{ $t('error.backHome') }}
-                </NuxtLink>
-              </div>
-            </div>
-          </div>
+  <div class="home">
+    <div class="hero">
+      <div class="hero-content">
+        <img src="/logo.png" alt="Logo" class="hero-logo">
+        <h1>404</h1>
+        <p>{{ $t('error.notFound') }}</p>
+        <div class="actions">
+          <NuxtLink :to="localePath('/')" class="btn btn-primary">
+            {{ $t('error.backHome') }}
+          </NuxtLink>
         </div>
-      </template>
-    </ContentDoc>
-  </main>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-const { $localePath } = useNuxtApp()
+const localePath = useLocalePath()
+defineProps({
+  error: Object
+})
 </script>
 
 <style scoped>
@@ -146,4 +143,4 @@ p {
     margin: var(--spacing-md) 0;
   }
 }
-</style>
+</style> 

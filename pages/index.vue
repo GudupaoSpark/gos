@@ -1,28 +1,25 @@
 <template>
-  <main>
-    <ContentDoc>
-      <template #not-found>
-        <div class="home">
-          <div class="hero">
-            <div class="hero-content">
-              <img src="/logo.png" alt="Logo" class="hero-logo">
-              <h1>404</h1>
-              <p>{{ $t('error.notFound') }}</p>
-              <div class="actions">
-                <NuxtLink :to="$localePath('/')" class="btn btn-primary">
-                  {{ $t('error.backHome') }}
-                </NuxtLink>
-              </div>
-            </div>
-          </div>
+  <div class="home">
+    <div class="hero">
+      <div class="hero-content">
+        <img src="/logo.png" alt="Gudupao Open Source" class="hero-logo">
+        <h1>{{ $t('title') }}</h1>
+        <p>{{ $t('subtitle') }}</p>
+        <div class="actions">
+          <NuxtLink :to="localePath('/projects')" class="btn btn-primary">
+            {{ $t('nav.projects') }}
+          </NuxtLink>
+          <NuxtLink :to="localePath('/about')" class="btn">
+            {{ $t('nav.about') }}
+          </NuxtLink>
         </div>
-      </template>
-    </ContentDoc>
-  </main>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-const { $localePath } = useNuxtApp()
+const localePath = useLocalePath()
 </script>
 
 <style scoped>
@@ -56,9 +53,9 @@ const { $localePath } = useNuxtApp()
 }
 
 .hero-logo {
-  width: 120px;
+  width: 200px;
   height: auto;
-  margin-bottom: var(--spacing-lg);
+  max-width: 100%;
 }
 
 .actions {
@@ -69,7 +66,7 @@ const { $localePath } = useNuxtApp()
 }
 
 h1 {
-  font-size: 4rem;
+  font-size: 2.5rem;
   margin: var(--spacing-lg) 0 var(--spacing-md);
   color: var(--primary-color);
 }
@@ -111,11 +108,11 @@ p {
   }
 
   .hero-logo {
-    width: 100px;
+    width: 150px;
   }
 
   h1 {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 
   p {
@@ -142,7 +139,7 @@ p {
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     margin: var(--spacing-md) 0;
   }
 }
