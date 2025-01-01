@@ -70,9 +70,6 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
     minify: true,
     preset: 'cloudflare',
-    output: {
-      dir: './dist'
-    }
   },
 
   compatibilityDate: '2025-01-01'
