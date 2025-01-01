@@ -3,16 +3,16 @@
     <div class="hero">
       <div class="hero-content">
         <img src="/logo.png" alt="Gudupao Open Source" class="hero-logo">
-        <h1>{{ $t('about.title') }}</h1>
-        <p class="description">{{ $t('about.description') }}</p>
+        <h1>{{ t('about.title') }}</h1>
+        <p class="description">{{ t('about.description') }}</p>
         
         <div class="content-section">
-          <h2>{{ $t('about.mission.title') }}</h2>
-          <p>{{ $t('about.mission.content') }}</p>
+          <h2>{{ t('about.mission.title') }}</h2>
+          <p>{{ t('about.mission.content') }}</p>
         </div>
 
         <div class="content-section">
-          <h2>{{ $t('about.members.title') }}</h2>
+          <h2>{{ t('about.members.title') }}</h2>
           <div class="members-grid">
             <div v-for="member in members" :key="member.github" class="member-card">
               <div class="member-avatar">
@@ -34,14 +34,14 @@
         </div>
 
         <div class="content-section">
-          <h2>{{ $t('about.contact.title') }}</h2>
-          <p>{{ $t('about.contact.content') }}</p>
+          <h2>{{ t('about.contact.title') }}</h2>
+          <p>{{ t('about.contact.content') }}</p>
           <div class="contact-links">
             <a href="https://github.com/GudupaoSpark" target="_blank" rel="noopener" class="btn">
               GitHub
             </a>
-            <a :href="`mailto:${$t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
-              {{ $t('about.contact.emailText') }}
+            <a :href="`mailto:${t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
+              {{ t('about.contact.emailText') }}
             </a>
           </div>
         </div>
@@ -55,6 +55,7 @@ import { useI18n } from 'vue-i18n'
 import { members } from '~/data/members'
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 definePageMeta({
   layout: 'default'
