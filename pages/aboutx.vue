@@ -40,8 +40,8 @@
             <a href="https://github.com/GudupaoSpark" target="_blank" rel="noopener" class="btn btn-primary">
               GitHub
             </a>
-            <a :href="`mailto:${t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
-              {{ t('about.contact.emailText') }}
+            <a href="mailto:official@gudupao.top" class="btn">
+              official@gudupao.top
             </a>
           </div>
         </div>

@@ -30,8 +30,6 @@ export default {
     contact: {
       title: 'Contact Us',
       content: 'If you have any questions, suggestions, or cooperation intentions, please feel free to contact us.',
-      emailText: 'official[at]gudupao.top',
-      emailAddress: 'official@gudupao.top'
     }
   }
 } 

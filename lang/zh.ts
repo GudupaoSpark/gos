@@ -30,8 +30,6 @@ export default {
     contact: {
       title: '联系我们',
       content: '如果您有任何问题、建议或合作意向，欢迎随时与我们联系。',
-      emailText: 'official[at]gudupao.top',
-      emailAddress: 'official@gudupao.top'
     }
   }
 } 
