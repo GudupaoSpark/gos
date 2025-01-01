@@ -8,6 +8,7 @@ interface CustomNuxtConfig extends NuxtConfig {
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  target: 'static',
   components: {
     dirs: [
       {
