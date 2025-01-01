@@ -14,7 +14,7 @@
         <div class="content-section">
           <h2>{{ t('about.members.title') }}</h2>
           <div class="members-grid">
-            <div v-for="member in members" :key="member.github" class="member-card">
+            <div v-for="member in membersList" :key="member.github" class="member-card">
               <div class="member-avatar">
                 <img :src="`https://github.com/${member.github}.png`" :alt="member.name">
               </div>
@@ -40,7 +40,7 @@
             <a href="https://github.com/GudupaoSpark" target="_blank" rel="noopener" class="btn">
               GitHub
             </a>
-            <a :href="`mailto:${t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
+            <a :href="`mailto:${t('about.contact.emailAddress')}`" class="btn">
               {{ t('about.contact.emailText') }}
             </a>
           </div>
@@ -53,9 +53,10 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { members } from '~/data/members'
+import { ref, computed } from 'vue'
 
 const { t } = useI18n()
-const localePath = useLocalePath()
+const membersList = members || []
 
 definePageMeta({
   layout: 'default'
