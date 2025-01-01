@@ -14,7 +14,8 @@ export default {
   projects: {
     title: 'Open Source Projects',
     subtitle: 'Discover quality open source projects worth contributing to',
-    all: 'All'
+    all: 'All',
+    searchPlaceholder: 'Search projects...'
   },
   about: {
     title: 'About Us',

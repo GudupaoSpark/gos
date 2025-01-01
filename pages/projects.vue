@@ -13,7 +13,7 @@
         <input 
           v-model="searchQuery" 
           type="text" 
-          :placeholder="$t('projects.searchPlaceholder') || '搜索项目名称或描述...'"
+          :placeholder="$t('projects.searchPlaceholder') || '搜索项目...'"
           class="search-input"
         >
         <button 
@@ -56,7 +56,7 @@
     <div class="projects-grid">
       <div 
         v-for="project in filteredProjects" 
-        :key="project.id" 
+        :key="project.name" 
         class="project-card"
       >
         <div class="project-content">

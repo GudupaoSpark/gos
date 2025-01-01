@@ -14,7 +14,8 @@ export default {
   projects: {
     title: '开源项目',
     subtitle: '发现值得贡献的优质开源项目',
-    all: '全部'
+    all: '全部',
+    searchPlaceholder: '搜索项目...'
   },
   about: {
     title: '关于我们',
