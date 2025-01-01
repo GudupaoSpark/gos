@@ -1,7 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt/config'
+import type { NuxtConfig } from '@nuxt/schema'
+
+interface CustomNuxtConfig extends NuxtConfig {
+  content?: any  // 暫時使用 any 類型來解決問題
+}
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
+  target: 'static',
   components: {
     dirs: [
       {
@@ -64,4 +71,4 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2025-01-01'
-})
+} as CustomNuxtConfig)
