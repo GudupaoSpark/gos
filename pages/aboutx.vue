@@ -1,10 +1,10 @@
 <template>
-  <div class="about">
+  <div class="home">
     <div class="hero">
       <div class="hero-content">
         <img src="/logo.png" alt="Gudupao Open Source" class="hero-logo">
         <h1>{{ t('about.title') }}</h1>
-        <p class="description">{{ t('about.description') }}</p>
+        <p>{{ t('about.description') }}</p>
         
         <div class="content-section">
           <h2>{{ t('about.mission.title') }}</h2>
@@ -14,7 +14,7 @@
         <div class="content-section">
           <h2>{{ t('about.members.title') }}</h2>
           <div class="members-grid">
-            <div v-for="member in membersList" :key="member.github" class="member-card">
+            <div v-for="member in members" :key="member.github" class="member-card">
               <div class="member-avatar">
                 <img :src="`https://github.com/${member.github}.png`" :alt="member.name">
               </div>
@@ -36,11 +36,11 @@
         <div class="content-section">
           <h2>{{ t('about.contact.title') }}</h2>
           <p>{{ t('about.contact.content') }}</p>
-          <div class="contact-links">
-            <a href="https://github.com/GudupaoSpark" target="_blank" rel="noopener" class="btn">
+          <div class="actions">
+            <a href="https://github.com/GudupaoSpark" target="_blank" rel="noopener" class="btn btn-primary">
               GitHub
             </a>
-            <a :href="`mailto:${t('about.contact.emailAddress')}`" class="btn">
+            <a :href="`mailto:${t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
               {{ t('about.contact.emailText') }}
             </a>
           </div>
@@ -53,10 +53,9 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { members } from '~/data/members'
-import { ref, computed } from 'vue'
 
 const { t } = useI18n()
-const membersList = members || []
+const localePath = useLocalePath()
 
 definePageMeta({
   layout: 'default'
@@ -74,7 +73,7 @@ useHead({
 </script>
 
 <style scoped>
-.about {
+.home {
   min-height: 100vh;
 }
 
@@ -91,14 +90,6 @@ useHead({
   margin: 0 auto;
 }
 
-.description {
-  font-size: 1.2rem;
-  margin: 2rem auto;
-  line-height: 1.6;
-  text-align: center;
-  max-width: 600px;
-}
-
 .content-section {
   margin: 4rem 0;
   text-align: center;
@@ -107,13 +98,6 @@ useHead({
 .content-section h2 {
   margin-bottom: 1.5rem;
   color: var(--primary-color);
-  text-align: center;
-}
-
-.content-section p {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
 }
 
 .members-grid {
@@ -150,12 +134,6 @@ useHead({
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: var(--bg-color);
-}
-
-.member-avatar img[src=''],
-.member-avatar img:not([src]) {
-  opacity: 0.2;
 }
 
 .member-card h3 {
@@ -193,7 +171,7 @@ useHead({
   display: inline-flex;
 }
 
-.contact-links {
+.actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
@@ -209,6 +187,11 @@ useHead({
   border: 2px solid var(--primary-color);
 }
 
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
 .btn:hover {
   background: var(--primary-color);
   color: white;
@@ -217,19 +200,17 @@ useHead({
 @media (max-width: 768px) {
   .members-grid {
     grid-template-columns: 1fr;
-    max-width: 100%;
+    max-width: 400px;
     padding: 0 1rem;
   }
-  
+
   .member-card {
     padding: 1.5rem;
-    width: 100%;
-    max-width: none;
   }
-  
+
   .member-avatar {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
   }
 }
 </style> 
