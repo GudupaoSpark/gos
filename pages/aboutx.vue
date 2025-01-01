@@ -52,6 +52,8 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { useHead } from '#head'
+import { useLocalePath } from '#i18n'
 import { members } from '~/data/members'
 
 const { t } = useI18n()
