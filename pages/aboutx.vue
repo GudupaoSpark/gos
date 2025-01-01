@@ -149,6 +149,12 @@ useHead({
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background: var(--bg-color);
+}
+
+.member-avatar img[src=''],
+.member-avatar img:not([src]) {
+  opacity: 0.2;
 }
 
 .member-card h3 {
@@ -210,17 +216,19 @@ useHead({
 @media (max-width: 768px) {
   .members-grid {
     grid-template-columns: 1fr;
-    max-width: 400px;
+    max-width: 100%;
     padding: 0 1rem;
   }
-
+  
   .member-card {
     padding: 1.5rem;
+    width: 100%;
+    max-width: none;
   }
-
+  
   .member-avatar {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 }
 </style> 
