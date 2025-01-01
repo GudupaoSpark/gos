@@ -32,7 +32,7 @@
             </div>
           </div>
         </div>
-<!-- 
+
         <div class="content-section">
           <h2>{{ t('about.contact.title') }}</h2>
           <p>{{ t('about.contact.content') }}</p>
@@ -40,11 +40,11 @@
             <a href="https://github.com/GudupaoSpark" target="_blank" rel="noopener" class="btn btn-primary">
               GitHub
             </a>
-            <a :href="`mailto:${t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
+<!--             <a :href="`mailto:${t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
               {{ t('about.contact.emailText') }}
-            </a>
+            </a> -->
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
