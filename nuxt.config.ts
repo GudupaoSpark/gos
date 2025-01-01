@@ -7,6 +7,7 @@ interface CustomNuxtConfig extends NuxtConfig {
 }
 
 export default defineNuxtConfig({
+  pages: true,
   devtools: { enabled: true },
   target: 'static',
   components: {
