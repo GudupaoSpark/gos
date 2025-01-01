@@ -69,7 +69,6 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
     minify: true,
-    preset: 'cloudflare',
   },
 
   compatibilityDate: '2025-01-01'
