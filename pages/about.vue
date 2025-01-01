@@ -37,7 +37,7 @@
           <h2>{{ $t('about.contact.title') }}</h2>
           <p>{{ $t('about.contact.content') }}</p>
           <div class="contact-links">
-            <a href="https://github.com/gudupao" target="_blank" rel="noopener" class="btn">
+            <a href="https://github.com/GudupaoSpark" target="_blank" rel="noopener" class="btn">
               GitHub
             </a>
             <a :href="`mailto:${$t('about.contact.emailAddress').replace('[at]', '@')}`" class="btn">
