@@ -53,7 +53,6 @@
 <script setup>
 import { useI18n } from '#imports'
 import { useHead } from '#imports'
-import { useLocalePath } from '@nuxtjs/i18n'
 import { members } from '~/data/members'
 
 const { t } = useI18n()
