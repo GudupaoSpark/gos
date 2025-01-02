@@ -7,22 +7,52 @@ on:
 jobs:
   convert-to-json:
     runs-on: ubuntu-latest
-    
     permissions:
+      contents: read
       issues: write
     
     steps:
-      - name: 输出调试信息
-        run: |
-          echo "Issue labels: ${{ toJson(github.event.issue.labels) }}"
+      - name: 生成 GitHub App 临时令牌
+        id: auth
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.org.BOT_APP_ID }}
+          private-key: ${{ secrets.org.BOT_APP_SECRET }}
+          owner: ${{ github.repository_owner }}
+
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.auth.outputs.token }}
+          fetch-depth: 0
 
       - name: 提取 Issue 内容并转换为 JSON
         id: convert
         uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
         with:
+          github-token: ${{ steps.auth.outputs.token }}
           script: |
-            console.log('Issue body:', context.payload.issue.body);
             const body = context.payload.issue.body;
+            if (!body) {
+              core.setFailed('Issue 内容为空');
+              return;
+            }
+            
+            // 检查是否为项目模板 Issue
+            const labels = context.payload.issue.labels || [];
+            const isTemplateIssue = labels.some(label => 
+              label.name === 'new-project | 添加项目' || 
+              label.name.includes('new-project')
+            );
+            
+            if (!isTemplateIssue) {
+              console.log('不是项目模板 Issue，跳过处理');
+              return;
+            }
+            
+            console.log('开始处理项目模板 Issue');
             
             // 解析 issue 内容
             const lines = body.split('\n');
@@ -35,39 +65,56 @@ jobs:
             
             let currentField = '';
             for (const line of lines) {
-              if (line.includes('项目名称')) {
-                currentField = 'name';
-                continue;
-              } else if (line.includes('项目描述')) {
-                currentField = 'description';
-                continue;
-              } else if (line.includes('GitHub 地址')) {
-                currentField = 'github';
-                continue;
-              } else if (line.includes('标签')) {
-                currentField = 'tags';
-                continue;
-              }
+              const cleanLine = line.trim();
+              // 跳过空行
+              if (!cleanLine) continue;
               
-              if (currentField && line.trim() && !line.startsWith('#')) {
+              // 检查字段标识
+              if (cleanLine.includes('项目名称')) {
+                currentField = 'name';
+              } else if (cleanLine.includes('项目描述')) {
+                currentField = 'description';
+              } else if (cleanLine.includes('GitHub 地址')) {
+                currentField = 'github';
+              } else if (cleanLine.includes('标签')) {
+                currentField = 'tags';
+              } else if (currentField && !cleanLine.startsWith('#') && !cleanLine.startsWith('_')) {
+                // 填充数据
                 if (currentField === 'tags') {
-                  data[currentField] = line.trim().split(',').map(tag => tag.trim());
+                  data[currentField] = cleanLine.split(',').map(tag => tag.trim()).filter(Boolean);
                 } else {
-                  data[currentField] = line.trim();
+                  data[currentField] = cleanLine;
                 }
               }
-
             }
             
-            console.log('Parsed data:', data);
+            // 验证数据
+            if (!data.name || !data.description || !data.github || !data.tags.length) {
+              console.log('解析的数据：', data);
+              core.setFailed('数据解析不完整');
+              return;
+            }
+            
+            console.log('成功解析数据：', data);
             const jsonOutput = JSON.stringify(data, null, 2);
             
-            // 创建评论
-            const comment = `项目信息已转换为 JSON 格式：\n\`\`\`json\n${jsonOutput}\n\`\`\``;
-            
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: comment
-            }); 
+            try {
+              // 创建评论
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `✅ 项目信息已成功转换为 JSON 格式：\n\`\`\`json\n${jsonOutput}\n\`\`\``
+              });
+              
+              // 添加处理完成标签
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['processed']
+              });
+            } catch (error) {
+              console.error('操作失败：', error);
+              core.setFailed(error.message);
+            } 
