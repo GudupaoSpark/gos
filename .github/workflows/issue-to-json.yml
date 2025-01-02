@@ -1,0 +1,67 @@
+name: Issue 转换为 JSON
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  convert-to-json:
+    # 只处理使用项目模板创建的 issue
+    if: contains(github.event.issue.labels.*.name, 'new-project | 添加项目')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    
+    steps:
+      - name: 提取 Issue 内容并转换为 JSON
+        id: convert
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const body = context.payload.issue.body;
+            
+            // 解析 issue 内容
+            const lines = body.split('\n');
+            const data = {
+              name: '',
+              description: '',
+              github: '',
+              tags: []
+            };
+            
+            let currentField = '';
+            for (const line of lines) {
+              if (line.includes('### 项目名称')) {
+                currentField = 'name';
+                continue;
+              } else if (line.includes('### 项目描述')) {
+                currentField = 'description';
+                continue;
+              } else if (line.includes('### GitHub 地址')) {
+                currentField = 'github';
+                continue;
+              } else if (line.includes('### 标签')) {
+                currentField = 'tags';
+                continue;
+              }
+              
+              if (currentField && line.trim() && !line.startsWith('###')) {
+                if (currentField === 'tags') {
+                  data[currentField] = line.trim().split(',').map(tag => tag.trim());
+                } else {
+                  data[currentField] = line.trim();
+                }
+              }
+            }
+            
+            const jsonOutput = JSON.stringify(data, null, 2);
+            
+            // 创建评论
+            const comment = `项目信息已转换为 JSON 格式：\n\`\`\`json\n${jsonOutput}\n\`\`\``;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            }); 

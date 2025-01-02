@@ -1,0 +1,43 @@
+name: 添加项目
+description: 添加一个新的项目条目
+labels: ["new-project | 添加项目"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您的贡献，请根据该表单填写项目信息。
+  - type: input
+    id: name
+    attributes:
+      label: 项目名称
+      description: 项目的名称
+      placeholder: 例如：Vue.js
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 项目描述
+      description: 简短的项目描述
+      placeholder: 例如：渐进式 JavaScript 框架，用于构建用户界面。易学易用，性能出色，适用场景丰富的 Web 前端框架。
+    validations:
+      required: true
+
+  - type: input
+    id: github
+    attributes:
+      label: GitHub 地址
+      description: 项目的 GitHub 仓库地址
+      placeholder: https://github.com/vuejs/core
+    validations:
+      required: true
+
+  - type: input
+    id: tags
+    attributes:
+      label: 标签
+      description: 项目的标签，用逗号分隔
+      placeholder: JavaScript, TypeScript, Framework, Frontend
+    validations:
+      required: true 
