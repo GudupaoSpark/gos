@@ -75,19 +75,32 @@ useHead({
 <style scoped>
 .home {
   min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+  width: 100vw;
+  position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .hero {
-  padding: 4rem 2rem;
+  padding: 4rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  position: relative;
 }
 
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .content-section {
