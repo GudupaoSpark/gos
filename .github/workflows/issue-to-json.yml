@@ -16,7 +16,7 @@ jobs:
         id: auth
         uses: actions/create-github-app-token@v1
         with:
-          app-id: ${{ vars.BOT_APP_ID }}
+          app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_SECRET }}
           owner: ${{ github.repository_owner }}
 
