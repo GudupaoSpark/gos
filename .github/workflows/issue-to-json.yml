@@ -6,18 +6,23 @@ on:
 
 jobs:
   convert-to-json:
-    # 只处理使用项目模板创建的 issue
-    if: contains(github.event.issue.labels.*.name, 'new-project | 添加项目')
     runs-on: ubuntu-latest
+    # 调试：输出标签信息
+    if: ${{ contains(toJson(github.event.issue.labels), 'new-project') }}
     permissions:
       issues: write
     
     steps:
+      - name: 输出调试信息
+        run: |
+          echo "Issue labels: ${{ toJson(github.event.issue.labels) }}"
+
       - name: 提取 Issue 内容并转换为 JSON
         id: convert
         uses: actions/github-script@v6
         with:
           script: |
+            console.log('Issue body:', context.payload.issue.body);
             const body = context.payload.issue.body;
             
             // 解析 issue 内容
@@ -31,21 +36,21 @@ jobs:
             
             let currentField = '';
             for (const line of lines) {
-              if (line.includes('### 项目名称')) {
+              if (line.includes('项目名称')) {
                 currentField = 'name';
                 continue;
-              } else if (line.includes('### 项目描述')) {
+              } else if (line.includes('项目描述')) {
                 currentField = 'description';
                 continue;
-              } else if (line.includes('### GitHub 地址')) {
+              } else if (line.includes('GitHub 地址')) {
                 currentField = 'github';
                 continue;
-              } else if (line.includes('### 标签')) {
+              } else if (line.includes('标签')) {
                 currentField = 'tags';
                 continue;
               }
               
-              if (currentField && line.trim() && !line.startsWith('###')) {
+              if (currentField && line.trim() && !line.startsWith('#')) {
                 if (currentField === 'tags') {
                   data[currentField] = line.trim().split(',').map(tag => tag.trim());
                 } else {
@@ -54,6 +59,7 @@ jobs:
               }
             }
             
+            console.log('Parsed data:', data);
             const jsonOutput = JSON.stringify(data, null, 2);
             
             // 创建评论
