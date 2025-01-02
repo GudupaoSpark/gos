@@ -97,6 +97,7 @@
 import projectsData from '@/data/projects.json'
 import { Octokit } from '@octokit/rest'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
 
@@ -114,6 +115,12 @@ const projects = ref([])
 const selectedTags = ref([])
 const searchQuery = ref('')
 const octokit = new Octokit()
+
+// 从 URL 参数中获取搜索查询
+const route = useRoute()
+watch(() => route.query.search, (newSearch) => {
+  searchQuery.value = newSearch || ''
+}, { immediate: true })
 
 const availableTags = computed(() => {
   const tags = new Set()

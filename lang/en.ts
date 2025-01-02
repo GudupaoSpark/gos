@@ -4,6 +4,7 @@ export default {
   nav: {
     home: 'Home',
     projects: 'Projects',
+    trending: 'Trending',
     about: 'About'
   },
   language: 'Language',
@@ -16,6 +17,20 @@ export default {
     subtitle: 'Discover quality open source projects worth contributing to',
     all: 'All',
     searchPlaceholder: 'Search projects...'
+  },
+  trending: {
+    title: 'Trending Projects',
+    subtitle: 'Most Popular Open Source Projects on GitHub',
+    timeRange: {
+      daily: 'Today',
+      weekly: 'This Week',
+      monthly: 'This Month'
+    },
+    stats: {
+      stars: 'Stars',
+      forks: 'Forks',
+      today: 'today'
+    }
   },
   about: {
     title: 'About Us',

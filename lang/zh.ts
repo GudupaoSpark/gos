@@ -4,6 +4,7 @@ export default {
   nav: {
     home: '首页',
     projects: '项目',
+    trending: '热门',
     about: '关于'
   },
   language: '语言',
@@ -16,6 +17,20 @@ export default {
     subtitle: '发现值得贡献的优质开源项目',
     all: '全部',
     searchPlaceholder: '搜索项目...'
+  },
+  trending: {
+    title: '热门项目',
+    subtitle: 'GitHub 最受欢迎的开源项目',
+    timeRange: {
+      daily: '今日',
+      weekly: '本周',
+      monthly: '本月'
+    },
+    stats: {
+      stars: '星标',
+      forks: '复刻',
+      today: '今日'
+    }
   },
   about: {
     title: '关于我们',
