@@ -7,8 +7,7 @@ on:
 jobs:
   convert-to-json:
     runs-on: ubuntu-latest
-    # 调试：输出标签信息
-    if: ${{ contains(toJson(github.event.issue.labels), 'new-project') }}
+    
     permissions:
       issues: write
     
