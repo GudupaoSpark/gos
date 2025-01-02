@@ -2,7 +2,7 @@ name: Issue 转换为 JSON
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
 
 jobs:
   convert-to-json:
