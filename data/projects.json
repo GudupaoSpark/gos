@@ -64,18 +64,6 @@
       ],
       "stars": 0,
       "forks": 0
-    },
-    {
-      "name": "GOS",
-      "description": "古都炮开源是一个致力于推动开源社区发展的平台，我们期待与您一起构建更好的开源生态。",
-      "github": "https://github.com/GudupaoSpark/gos",
-      "tags": [
-        "TypeScript",
-        "vue",
-        "nuxt"
-      ],
-      "stars": 0,
-      "forks": 0
     }
   ]
 }

@@ -146,10 +146,19 @@ jobs:
               body: `✅ 项目 "${data.name}" 已成功添加到数据库中。`
             });
             
+            // 添加处理完成标签
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['processed', 'approved']
+            });
+            
             // 关闭 Issue
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              state: 'closed'
-            }); 
+              state: 'closed',
+              state_reason: 'completed'
+            });
