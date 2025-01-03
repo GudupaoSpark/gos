@@ -1,0 +1,155 @@
+name: 处理 Issue Pass 评论
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  process-pass:
+    # 只在评论内容为 "Pass" 时运行
+    if: github.event.comment.body == 'Pass'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    
+    steps:
+      - name: 生成 GitHub App 临时令牌
+        id: auth
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_SECRET }}
+          owner: ${{ github.repository_owner }}
+
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.auth.outputs.token }}
+          fetch-depth: 0
+
+      - name: 处理 Pass 评论
+        uses: actions/github-script@v6
+        env:
+          APP_TOKEN: ${{ steps.auth.outputs.token }}
+        with:
+          github-token: ${{ steps.auth.outputs.token }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // 获取 Issue 内容
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            
+            // 检查是否为项目模板 Issue
+            const labels = issue.data.labels || [];
+            const isTemplateIssue = labels.some(label => 
+              label.name === 'new-project | 添加项目' || 
+              label.name.includes('new-project')
+            );
+            
+            if (!isTemplateIssue) {
+              console.log('不是项目模板 Issue，跳过处理');
+              return;
+            }
+            
+            // 检查评论者是否有写权限
+            const commenter = context.payload.comment.user.login;
+            try {
+              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: commenter
+              });
+              
+              if (!['admin', 'write'].includes(permission.permission)) {
+                console.log('评论者没有足够的权限');
+                return;
+              }
+            } catch (error) {
+              console.log('检查权限失败:', error);
+              return;
+            }
+            
+            // 解析 Issue 内容
+            const body = issue.data.body;
+            const lines = body.split('\n');
+            const data = {
+              name: '',
+              description: '',
+              github: '',
+              tags: [],
+              stars: 0,
+              forks: 0
+            };
+            
+            let currentField = '';
+            for (const line of lines) {
+              const cleanLine = line.trim();
+              if (!cleanLine) continue;
+              
+              if (cleanLine.includes('项目名称')) {
+                currentField = 'name';
+              } else if (cleanLine.includes('项目描述')) {
+                currentField = 'description';
+              } else if (cleanLine.includes('GitHub 地址')) {
+                currentField = 'github';
+              } else if (cleanLine.includes('标签')) {
+                currentField = 'tags';
+              } else if (currentField && !cleanLine.startsWith('#') && !cleanLine.startsWith('_')) {
+                if (currentField === 'tags') {
+                  data[currentField] = cleanLine.split(',').map(tag => tag.trim()).filter(Boolean);
+                } else {
+                  data[currentField] = cleanLine;
+                }
+              }
+            }
+            
+            // 验证数据
+            if (!data.name || !data.description || !data.github || !data.tags.length) {
+              console.log('数据解析不完整:', data);
+              return;
+            }
+            
+            // 读取现有项目数据
+            const projectsPath = 'data/projects.json';
+            const projectsContent = fs.readFileSync(projectsPath, 'utf8');
+            const projectsData = JSON.parse(projectsContent);
+            
+            // 添加新项目
+            projectsData.projects.push(data);
+            
+            // 写入文件
+            fs.writeFileSync(projectsPath, JSON.stringify(projectsData, null, 2));
+            
+            // 创建提交
+            const commitMessage = `添加新项目: ${data.name}`;
+            
+            // 配置 Git
+            await exec.exec('git', ['config', 'user.name', 'github-actions[bot]']);
+            await exec.exec('git', ['config', 'user.email', 'github-actions[bot]@users.noreply.github.com']);
+            
+            // 提交更改
+            await exec.exec('git', ['add', projectsPath]);
+            await exec.exec('git', ['commit', '-m', commitMessage]);
+            await exec.exec('git', ['push']);
+            
+            // 添加评论确认
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `✅ 项目 "${data.name}" 已成功添加到数据库中。`
+            });
+            
+            // 关闭 Issue
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            }); 
