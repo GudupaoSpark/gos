@@ -22,3 +22,14 @@
   width: 100%;
 }
 </style>
+
+<script setup>
+import { useRoute } from 'vue-router'
+const route = useRoute()
+
+watch(() => route.path, (path) => {
+  if (typeof window !== 'undefined' && window._hmt) {
+    window._hmt.push(['_trackPageview', path])
+  }
+}, { immediate: true })
+</script>

@@ -56,7 +56,21 @@ export default defineNuxtConfig({
     keepalive: false,
     head: {
       charset: 'utf-8',
-      viewport: 'width=device-width, initial-scale=1'
+      viewport: 'width=device-width, initial-scale=1',
+      script: [
+        {
+          children: `
+            var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "https://hm.baidu.com/hm.js?080dac2ae8ef8fdbfae88d34c484020f";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+            })();
+          `,
+          type: 'text/javascript'
+        }
+      ]
     }
   },
 
