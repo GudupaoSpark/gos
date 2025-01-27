@@ -76,6 +76,17 @@
       ],
       "stars": 0,
       "forks": 0
+    },
+    {
+      "name": "Twitter_Fdap",
+      "description": "A Linux script for exporting and checking the diff in your X/Twitter follower and following lists automatically.",
+      "github": "https://github.com/MtFloveU/twitter_fdap",
+      "tags": [
+        "Python",
+        "Shell"
+      ],
+      "stars": 0,
+      "forks": 0
     }
   ]
 }
